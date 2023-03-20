@@ -8,6 +8,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import OnboardScreen from "../screens/OnboardScreen/OnboardScreen";
 import { LoginScreen, SignupScreen, HomeScreen } from "../screens/index";
+import { HeaderLeft, HeaderRight } from "../components/TopNavigation";
 
 import Colors from "../utils/Colors";
 
@@ -80,7 +81,15 @@ const AuthStack = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ header: () => null }}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "#FFF",
+            },
+
+            headerLeft: () => <HeaderLeft />,
+            headerRight: () => <HeaderRight />,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

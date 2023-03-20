@@ -28,9 +28,9 @@ const BottomNavigator = () => {
           <Text style={styles.text}>Feeds</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconContainer}>
+        <View style={styles.iconContainer}>
           <Text style={styles.helpMeButton}>Request Help</Text>
-        </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.iconContainer}>
           <FontAwesome5 name="object-group" size={30} color="#696969" />
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
     fontFamily: "LatoBold",
+    color: Colors.primary,
   },
 
   text: {
