@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => alert("thada kora")}
+        onPress={() => navigation.navigate("Home")}
         // onPress={() => login(email, password)}
       />
 

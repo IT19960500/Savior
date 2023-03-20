@@ -7,7 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import OnboardScreen from "../screens/OnboardScreen/OnboardScreen";
-import { LoginScreen, SignupScreen } from "../screens/index";
+import { LoginScreen, SignupScreen, HomeScreen } from "../screens/index";
+
 import Colors from "../utils/Colors";
 
 const Stack = createStackNavigator();
@@ -74,6 +75,12 @@ const AuthStack = () => {
               </View>
             ),
           })}
+        />
+
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ header: () => null }}
         />
       </Stack.Navigator>
     </NavigationContainer>
