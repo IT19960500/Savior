@@ -12,11 +12,14 @@ import { Entypo } from "@expo/vector-icons";
 
 import Colors from "../utils/Colors";
 
-const MoreOptionScreen = () => {
+const MoreOptionScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("MyProfile")}
+        >
           <View style={styles.listItemInnerContentView}>
             <Text style={styles.textStyle}>My Profile</Text>
             <FontAwesome5 name="user-alt" size={25} color={Colors.mediumGray} />
@@ -25,7 +28,10 @@ const MoreOptionScreen = () => {
 
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("MyRequest")}
+        >
           <View style={styles.listItemInnerContentView}>
             <Text style={styles.textStyle}>My Request</Text>
             <FontAwesome5
@@ -38,7 +44,10 @@ const MoreOptionScreen = () => {
 
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("MyTips")}
+        >
           <View style={styles.listItemInnerContentView}>
             <Text style={styles.textStyle}>My Tips</Text>
             <FontAwesome5 name="blog" size={25} color={Colors.mediumGray} />
@@ -47,7 +56,10 @@ const MoreOptionScreen = () => {
 
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("MyDonations")}
+        >
           <View style={styles.listItemInnerContentView}>
             <Text style={styles.textStyle}>My Donations</Text>
             <FontAwesome5 name="donate" size={25} color={Colors.mediumGray} />
