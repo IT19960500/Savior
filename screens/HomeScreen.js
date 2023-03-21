@@ -4,10 +4,10 @@ import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import { BottomNavigator } from "../components/index";
 import Colors from "../utils/Colors";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <BottomNavigator />
+      <BottomNavigator navigation={navigation} />
     </SafeAreaView>
   );
 };

@@ -7,7 +7,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import OnboardScreen from "../screens/OnboardScreen/OnboardScreen";
-import { LoginScreen, SignupScreen, HomeScreen } from "../screens/index";
+import {
+  LoginScreen,
+  SignupScreen,
+  HomeScreen,
+  MoreOptionScreen,
+} from "../screens/index";
 import { HeaderLeft, HeaderRight } from "../components/TopNavigation";
 
 import Colors from "../utils/Colors";
@@ -90,6 +95,30 @@ const AuthStack = () => {
             headerLeft: () => <HeaderLeft />,
             headerRight: () => <HeaderRight />,
           }}
+        />
+
+        <Stack.Screen
+          name="MoreOption"
+          component={MoreOptionScreen}
+          options={({ navigation }) => ({
+            title: "",
+            headerStyle: {
+              backgroundColor: Colors.bgWhite,
+              shadowColor: Colors.bgWhite,
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{ marginLeft: 10 }}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor={Colors.bgWhite}
+                  color={Colors.black}
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </View>
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>

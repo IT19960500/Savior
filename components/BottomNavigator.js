@@ -5,7 +5,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import Colors from "../utils/Colors";
 
-const BottomNavigator = () => {
+const BottomNavigator = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.floatingButton}>
@@ -37,7 +37,10 @@ const BottomNavigator = () => {
           <Text style={styles.text}>Community</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate("MoreOption")}
+        >
           <FontAwesome5 name="bars" size={30} color="#696969" />
           <Text style={styles.text}>More</Text>
         </TouchableOpacity>
