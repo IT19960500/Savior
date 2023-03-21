@@ -8,7 +8,10 @@ import Colors from "../utils/Colors";
 const BottomNavigator = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => navigation.navigate("RequestHelp")}
+      >
         <FontAwesome5
           name="slideshare"
           style={styles.icon}
@@ -18,12 +21,18 @@ const BottomNavigator = ({ navigation }) => {
       </TouchableOpacity>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate("Tips")}
+        >
           <FontAwesome5 name="blog" size={30} color="#696969" />
           <Text style={styles.text}>Tips</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate("Feeds")}
+        >
           <FontAwesome5 name="rss" size={30} color="#696969" />
           <Text style={styles.text}>Feeds</Text>
         </TouchableOpacity>
@@ -32,7 +41,10 @@ const BottomNavigator = ({ navigation }) => {
           <Text style={styles.helpMeButton}>Request Help</Text>
         </View>
 
-        <TouchableOpacity style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate("Community")}
+        >
           <FontAwesome5 name="object-group" size={30} color="#696969" />
           <Text style={styles.text}>Community</Text>
         </TouchableOpacity>

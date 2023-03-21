@@ -12,6 +12,10 @@ import {
   SignupScreen,
   HomeScreen,
   MoreOptionScreen,
+  TipsScreen,
+  FeedsScreen,
+  CommunityScreen,
+  RequestHelpScreen,
 } from "../screens/index";
 import { HeaderLeft, HeaderRight } from "../components/TopNavigation";
 
@@ -100,6 +104,102 @@ const AuthStack = () => {
         <Stack.Screen
           name="MoreOption"
           component={MoreOptionScreen}
+          options={({ navigation }) => ({
+            title: "",
+            headerStyle: {
+              backgroundColor: Colors.bgWhite,
+              shadowColor: Colors.bgWhite,
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{ marginLeft: 10 }}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor={Colors.bgWhite}
+                  color={Colors.black}
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </View>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="Tips"
+          component={TipsScreen}
+          options={({ navigation }) => ({
+            title: "",
+            headerStyle: {
+              backgroundColor: Colors.bgWhite,
+              shadowColor: Colors.bgWhite,
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{ marginLeft: 10 }}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor={Colors.bgWhite}
+                  color={Colors.black}
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </View>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="Feeds"
+          component={FeedsScreen}
+          options={({ navigation }) => ({
+            title: "",
+            headerStyle: {
+              backgroundColor: Colors.bgWhite,
+              shadowColor: Colors.bgWhite,
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{ marginLeft: 10 }}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor={Colors.bgWhite}
+                  color={Colors.black}
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </View>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="Community"
+          component={CommunityScreen}
+          options={({ navigation }) => ({
+            title: "",
+            headerStyle: {
+              backgroundColor: Colors.bgWhite,
+              shadowColor: Colors.bgWhite,
+              elevation: 0,
+            },
+            headerLeft: () => (
+              <View style={{ marginLeft: 10 }}>
+                <FontAwesome.Button
+                  name="long-arrow-left"
+                  size={25}
+                  backgroundColor={Colors.bgWhite}
+                  color={Colors.black}
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </View>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="RequestHelp"
+          component={RequestHelpScreen}
           options={({ navigation }) => ({
             title: "",
             headerStyle: {
