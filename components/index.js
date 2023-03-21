@@ -1,6 +1,7 @@
 import FormButton from "./FormButton";
 import FormInput from "./FormInput";
 import SocialButton from "./SocialButton";
-import HomeScreen from "../screens/HomeScreen";
+import BottomNavigator from "./BottomNavigator";
+import TopNavigation from "./TopNavigation";
 
-export { FormButton, FormInput, SocialButton, HomeScreen };
+export { FormButton, FormInput, SocialButton, BottomNavigator, TopNavigation };
