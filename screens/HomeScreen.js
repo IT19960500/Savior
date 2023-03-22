@@ -1,12 +1,79 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from "react-native";
 
-import { BottomNavigator } from "../components/index";
+import { BottomNavigator, RequestCard } from "../components/index";
 import Colors from "../utils/Colors";
+
+const data = [
+  {
+    id: 1,
+    name: "kanaka",
+    location: "polhene geddara kumarathunga mw ",
+    type: "Food",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    person: 2,
+    createAt: "2023-03-25",
+    userImg:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3OIHckcpNeno7oFx_pw0izU0o2hQs50p4jw&usqp=CAU",
+  },
+  {
+    id: 2,
+    name: "bhashitha",
+    location: "Dickwella",
+    type: "Medicine",
+    description: "this is a description",
+    person: 1,
+    createAt: "2023-03-20",
+    userImg:
+      "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg",
+  },
+
+  {
+    id: 3,
+    name: "bhashitha",
+    location: "Dickwella",
+    type: "Transport",
+    description: "this is a description",
+    person: 2,
+    createAt: "2023-03-22",
+    userImg:
+      "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg",
+  },
+];
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return (
+                <RequestCard
+                  image={item.userImg}
+                  userName={item.name}
+                  location={item.location}
+                  type={item.type}
+                  description={item.description}
+                  person={item.person}
+                  createAt={item.createAt}
+                />
+              );
+            }}
+          />
+        </View>
+      </ScrollView>
+
       <BottomNavigator navigation={navigation} />
     </SafeAreaView>
   );
