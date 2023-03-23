@@ -14,10 +14,10 @@ import Colors from "../utils/Colors";
 
 const RequestCard = (props) => {
   const {
-    id,
+    userId,
     image,
     userName,
-    location,
+    address,
     type,
     description,
     person,
@@ -45,7 +45,7 @@ const RequestCard = (props) => {
               size={18}
               color="#64676B"
             />
-            <Text style={styles.location}>{location}</Text>
+            <Text style={styles.address}>{address}</Text>
           </View>
         </View>
       </View>
@@ -123,10 +123,10 @@ const RequestCard = (props) => {
             style={styles.editBtn}
             onPress={() =>
               navigation.navigate("EditRequest", {
-                id: id,
+                userId: userId,
                 image: image,
                 userName: userName,
-                location: location,
+                address: address,
                 type: type,
                 description: description,
                 person: person,

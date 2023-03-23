@@ -12,15 +12,36 @@ import SelectDropdown from "react-native-select-dropdown";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
+import { auth, db } from "../config/firebase";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+
 import Colors from "../utils/Colors";
+import { async } from "@firebase/util";
 
 const RequestHelpScreen = () => {
   const requestType = ["Food", "Medicine", "Transport", "Clothes"];
 
+  const [description, setDescription] = useState(null);
+  const [type, setType] = useState(null);
+  const [person, setPerson] = useState(null);
+  const [contact, setContact] = useState(null);
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [address, setAddress] = useState(null);
   const [catchLocation, setCatchLocation] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+  const [isDangerous, setIsDangerous] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
+
+  const d = new Date();
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -36,9 +57,51 @@ const RequestHelpScreen = () => {
     setCatchLocation(true);
   };
 
-  if (address) {
-    console.log(JSON.stringify(address[0].city + "," + address[0].country));
-  }
+  //clear alert and text
+  const clear = () => {
+    setTimeout(() => {
+      setIsShow(false);
+      setIsDangerous(false);
+      setDescription(null);
+      setType(null);
+      setPerson(null);
+      setContact(null);
+      setAddress(null);
+    }, 2000);
+  };
+
+  //create request
+  const addRequest = async () => {
+    if (!description || !type || !person || !contact || !address) {
+      setIsShow(true);
+      setAlertMsg("Please provide all values");
+      setIsDangerous(true);
+      clear();
+      return;
+    }
+    let requestToSave = {
+      description: description,
+      type: type,
+      person: person,
+      contact: contact,
+      userId: auth.currentUser.uid,
+      userName: "Kanaka",
+      address: JSON.stringify(address[0].city + "," + address[0].country),
+      createAt: d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear(),
+      lati: location.coords.latitude,
+      longi: location.coords.longitude,
+      userImg:
+        "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg",
+    };
+
+    console.log(requestToSave);
+
+    await addDoc(collection(db, "request"), requestToSave);
+
+    setIsShow(true);
+    setAlertMsg("Your request submit successfully...");
+    clear();
+  };
 
   return (
     <View style={styles.container}>
@@ -46,6 +109,7 @@ const RequestHelpScreen = () => {
         <Text style={styles.titleText}>Create Your Request</Text>
 
         <TextInput
+          onChangeText={(description) => setDescription(description)}
           style={styles.descriptionText}
           placeholder="What is your request from others"
           multiline={true}
@@ -67,7 +131,7 @@ const RequestHelpScreen = () => {
             );
           }}
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+            setType(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem;
@@ -84,6 +148,7 @@ const RequestHelpScreen = () => {
           placeholder="Number of persons"
           multiline={true}
           inputMode="numeric"
+          onChangeText={(person) => setPerson(person)}
         />
 
         <View style={styles.spacer} />
@@ -91,8 +156,8 @@ const RequestHelpScreen = () => {
         <TextInput
           style={styles.personText}
           placeholder="Your contact number"
-          multiline={true}
           inputMode="tel"
+          onChangeText={(contact) => setContact(contact)}
         />
 
         <View style={styles.spacer} />
@@ -119,9 +184,33 @@ const RequestHelpScreen = () => {
           )}
         </TouchableOpacity>
 
+        {isShow && (
+          <View
+            style={
+              isDangerous
+                ? [
+                    styles.alertContainer,
+                    {
+                      backgroundColor: Colors.primary,
+                      borderColor: Colors.secondary,
+                    },
+                  ]
+                : [
+                    styles.alertContainer,
+                    { backgroundColor: "#3fc36f", borderColor: "#41b26a" },
+                  ]
+            }
+          >
+            <Text style={styles.alertText}>{alertMsg}</Text>
+          </View>
+        )}
+
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => addRequest()}
+        >
           <Text style={styles.submitText}>Submit Request</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -246,6 +335,25 @@ const styles = StyleSheet.create({
   },
 
   submitText: {
+    fontSize: 17,
+    fontFamily: "LatoRegular",
+    color: Colors.bgWhite,
+    fontWeight: "700",
+  },
+
+  alertContainer: {
+    flexDirection: "row",
+    // backgroundColor: Colors.primary,
+    height: 50,
+    borderRadius: 5,
+    borderWidth: 1,
+    // borderColor: Colors.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  alertText: {
     fontSize: 17,
     fontFamily: "LatoRegular",
     color: Colors.bgWhite,

@@ -16,10 +16,10 @@ import Colors from "../../utils/Colors";
 
 const EditRequestScree = ({ route, navigation }) => {
   const {
-    id,
+    userId,
     image,
     userName,
-    // location,
+    address,
     type,
     description,
     person,
@@ -33,7 +33,7 @@ const EditRequestScree = ({ route, navigation }) => {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [address, setAddress] = useState(null);
+  const [addr, setAddr] = useState(null);
   const [catchLocation, setCatchLocation] = useState(false);
 
   const getLocation = async () => {
@@ -46,11 +46,11 @@ const EditRequestScree = ({ route, navigation }) => {
     let location = await Location.getCurrentPositionAsync({});
     let address = await Location.reverseGeocodeAsync(location.coords);
     setLocation(location);
-    setAddress(address);
+    setAddr(address);
     setCatchLocation(true);
   };
 
-  console.log(id);
+  console.log(userId);
   return (
     <View style={styles.container}>
       <ScrollView>
