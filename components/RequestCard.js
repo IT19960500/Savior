@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
 import {
   EvilIcons,
@@ -9,6 +16,19 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
+
+import { auth, db } from "../config/firebase";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 import Colors from "../utils/Colors";
 
@@ -29,6 +49,12 @@ const RequestCard = (props) => {
     showEditPanel,
     navigation,
   } = props;
+
+  //delete request
+  const deleteRequest = async () => {
+    await deleteDoc(doc(db, "request", id));
+    alert("Request delete successfully");
+  };
 
   return (
     <View style={styles.container}>
@@ -142,7 +168,10 @@ const RequestCard = (props) => {
             <Text>UPDATE REQUEST</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.editBtn}>
+          <TouchableOpacity
+            onPress={() => deleteRequest()}
+            style={styles.editBtn}
+          >
             <Text>DELETE REQUEST</Text>
           </TouchableOpacity>
         </View>
