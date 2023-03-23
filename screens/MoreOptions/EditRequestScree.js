@@ -12,9 +12,23 @@ import SelectDropdown from "react-native-select-dropdown";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
-import Colors from "../utils/Colors";
+import Colors from "../../utils/Colors";
 
-const RequestHelpScreen = () => {
+const EditRequestScree = ({ route, navigation }) => {
+  const {
+    id,
+    image,
+    userName,
+    // location,
+    type,
+    description,
+    person,
+    createAt,
+    contact,
+    lati,
+    longi,
+  } = route.params;
+
   const requestType = ["Food", "Medicine", "Transport", "Clothes"];
 
   const [location, setLocation] = useState(null);
@@ -36,14 +50,11 @@ const RequestHelpScreen = () => {
     setCatchLocation(true);
   };
 
-  if (address) {
-    console.log(JSON.stringify(address[0].city + "," + address[0].country));
-  }
-
+  console.log(id);
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.titleText}>Create Your Request</Text>
+        <Text style={styles.titleText}>Update Your Request</Text>
 
         <TextInput
           style={styles.descriptionText}
@@ -110,11 +121,11 @@ const RequestHelpScreen = () => {
           />
           {catchLocation ? (
             <Text style={styles.locationTxt}>
-              Thank You! We Got Your Location
+              Thank You! We Updated Your Location
             </Text>
           ) : (
             <Text style={styles.locationTxt}>
-              Click This Button For Get Your Location
+              Click This Button For Update Your Location
             </Text>
           )}
         </TouchableOpacity>
@@ -122,14 +133,14 @@ const RequestHelpScreen = () => {
         <View style={styles.spacer} />
 
         <TouchableOpacity style={styles.submitButton}>
-          <Text style={styles.submitText}>Submit Request</Text>
+          <Text style={styles.submitText}>Update Request</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
 };
 
-export default RequestHelpScreen;
+export default EditRequestScree;
 
 const styles = StyleSheet.create({
   container: {

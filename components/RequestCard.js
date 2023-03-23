@@ -1,19 +1,34 @@
-import React, { Component } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import React from "react";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 import {
   EvilIcons,
   MaterialIcons,
   Fontisto,
   MaterialCommunityIcons,
+  Entypo,
 } from "@expo/vector-icons";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 
 import Colors from "../utils/Colors";
 
 const RequestCard = (props) => {
-  const { image, userName, location, type, description, person, createAt } =
-    props;
+  const {
+    id,
+    image,
+    userName,
+    location,
+    type,
+    description,
+    person,
+    createAt,
+    contact,
+    lati,
+    longi,
+    showEditPanel,
+    navigation,
+  } = props;
+
   return (
     <View style={styles.container}>
       <View style={styles.cardHeader}>
@@ -39,12 +54,22 @@ const RequestCard = (props) => {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: lati,
+            longitude: longi,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-        />
+        >
+          <Marker
+            coordinate={{
+              latitude: lati,
+              longitude: longi,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            title="Victim Location"
+          />
+        </MapView>
       </View>
 
       <View style={styles.contentContainer}>
@@ -69,6 +94,15 @@ const RequestCard = (props) => {
           </Text>
         </View>
         <View style={styles.contentItem}>
+          <Entypo
+            name="old-phone"
+            style={styles.cIcon}
+            size={22}
+            color="#64676B"
+          />
+          <Text style={styles.contentText}>{contact}</Text>
+        </View>
+        <View style={styles.contentItem}>
           <MaterialCommunityIcons
             name="update"
             style={styles.cIcon}
@@ -82,6 +116,35 @@ const RequestCard = (props) => {
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>{description}</Text>
       </View>
+
+      {showEditPanel && (
+        <View style={styles.editContainer}>
+          <TouchableOpacity
+            style={styles.editBtn}
+            onPress={() =>
+              navigation.navigate("EditRequest", {
+                id: id,
+                image: image,
+                userName: userName,
+                location: location,
+                type: type,
+                description: description,
+                person: person,
+                createAt: createAt,
+                contact: contact,
+                lati: lati,
+                longi: longi,
+              })
+            }
+          >
+            <Text>UPDATE REQUEST</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.editBtn}>
+            <Text>DELETE REQUEST</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -166,6 +229,8 @@ const styles = StyleSheet.create({
     paddingTop: 3,
   },
 
+  icon: {},
+
   contentText: {
     fontSize: 14,
     color: "#64676B",
@@ -187,5 +252,28 @@ const styles = StyleSheet.create({
     fontFamily: "LatoRegular",
     color: Colors.mediumGray,
     fontWeight: "500",
+  },
+
+  editContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "space-between",
+  },
+
+  editBtn: {
+    paddingVertical: 10,
+    backgroundColor: "#cccccc",
+    width: "45%",
+    alignItems: "center",
+    color: Colors.black,
+    fontSize: 17,
+    fontFamily: "LatoBold",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: Colors.mediumGray,
+    fontWeight: "900",
   },
 });

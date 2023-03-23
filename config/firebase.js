@@ -1,27 +1,29 @@
-// import { initializeApp } from "firebase/app";
-// import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyB-4OSzFLgDiucuJF43wXToNF1-FsQYl48",
-//   authDomain: "savior-f4176.firebaseapp.com",
-//   projectId: "savior-f4176",
-//   storageBucket: "savior-f4176.appspot.com",
-//   messagingSenderId: "364542439323",
-//   appId: "1:364542439323:web:5554551b8e663096ce7b3e",
-//   measurementId: "G-RH5XJ0G6BV",
-// };
+import { getAuth } from "firebase/auth";
 
-// // Initialize Firebase
-// let app;
+import { getFirestore } from "firebase/firestore";
 
-// if (firebase.apps.length === 0) {
-//   app = firebase.initializeApp(firebaseConfig);
-// } else {
-//   app = firebase.app();
-// }
+const firebaseConfig = {
+  apiKey: "AIzaSyB-4OSzFLgDiucuJF43wXToNF1-FsQYl48",
 
-// const auth = firebase.auth();
-// const db = getFirestore();
+  authDomain: "savior-f4176.firebaseapp.com",
 
-// export { auth, db };
+  projectId: "savior-f4176",
+
+  storageBucket: "savior-f4176.appspot.com",
+
+  messagingSenderId: "364542439323",
+
+  appId: "1:364542439323:web:5554551b8e663096ce7b3e",
+
+  measurementId: "G-RH5XJ0G6BV",
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth();
+
+const db = getFirestore();
+
+export { auth, db };

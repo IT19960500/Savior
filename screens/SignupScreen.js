@@ -10,6 +10,9 @@ import {
 import { FormButton, SocialButton, FormInput } from "../components/index";
 import Colors from "../utils/Colors";
 
+import { auth } from "../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
