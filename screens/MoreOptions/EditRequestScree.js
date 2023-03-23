@@ -16,6 +16,7 @@ import Colors from "../../utils/Colors";
 
 const EditRequestScree = ({ route, navigation }) => {
   const {
+    id,
     userId,
     image,
     userName,
