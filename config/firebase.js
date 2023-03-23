@@ -1,27 +1,19 @@
-// import { initializeApp } from "firebase/app";
-// import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyB-4OSzFLgDiucuJF43wXToNF1-FsQYl48",
-//   authDomain: "savior-f4176.firebaseapp.com",
-//   projectId: "savior-f4176",
-//   storageBucket: "savior-f4176.appspot.com",
-//   messagingSenderId: "364542439323",
-//   appId: "1:364542439323:web:5554551b8e663096ce7b3e",
-//   measurementId: "G-RH5XJ0G6BV",
-// };
+const firebaseConfig = {
+    apiKey: "AIzaSyAlzc2Z2tG_eKWBkyk1DggGvJo78bO4XOA",
+    authDomain: "disasterapp-cc929.firebaseapp.com",
+    projectId: "disasterapp-cc929",
+    storageBucket: "disasterapp-cc929.appspot.com",
+    messagingSenderId: "429682382523",
+    appId: "1:429682382523:web:a1ac5a83e30c5ccdb1fb9e",
+    measurementId: "G-RF62CEZ00S"
+};
 
-// // Initialize Firebase
-// let app;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
 
-// if (firebase.apps.length === 0) {
-//   app = firebase.initializeApp(firebaseConfig);
-// } else {
-//   app = firebase.app();
-// }
-
-// const auth = firebase.auth();
-// const db = getFirestore();
-
-// export { auth, db };
+export { auth, db };

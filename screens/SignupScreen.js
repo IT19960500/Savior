@@ -9,19 +9,46 @@ import {
 
 import { FormButton, SocialButton, FormInput } from "../components/index";
 import Colors from "../utils/Colors";
+import { auth } from "../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validationMessage, setValidationMessage] = React.useState('');
+
+  const validateAndSet = (value, valueToCompare, setValue) => {
+    if (value !== valueToCompare) {
+      setValidationMessage('Passwords do not match');
+    } else {
+      setValidationMessage('');
+    }
+    setValue(value);
+  };
+
+  let signUp = () => {
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          sendEmailVerification(auth.currentUser);
+          //navigation.navigate("ToDo", { user: userCredential.user});
+        })
+        .catch((error) => {
+          setValidationMessage(error.message);
+        });
+    }
+  }
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.subLogoName}>Create an account</Text>
-
+      <Text style={styles.errorText}>{validationMessage}</Text>
       <FormInput
         labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
+        value={email}
+        onChangeText={setEmail}
         placeholderText="Email"
         iconType="user"
         keyboardType="email-address"
@@ -31,7 +58,8 @@ const SignupScreen = ({ navigation }) => {
 
       <FormInput
         labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
+        value={password}
+        onChangeText={(value) => validateAndSet(value, confirmPassword, setPassword)}
         placeholderText="Password"
         iconType="lock"
         secureTextEntry={true}
@@ -39,7 +67,8 @@ const SignupScreen = ({ navigation }) => {
 
       <FormInput
         labelValue={confirmPassword}
-        onChangeText={(userPassword) => setConfirmPassword(userPassword)}
+        value={confirmPassword}
+        onChangeText={(value) => validateAndSet(value, password, setConfirmPassword)}
         placeholderText="Confirm Password"
         iconType="lock"
         secureTextEntry={true}
@@ -47,8 +76,7 @@ const SignupScreen = ({ navigation }) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => alert("thada kora")}
-        // onPress={() => login(email, password)}
+        onPress={signUp}
       />
 
       <View style={styles.textPrivate}>
@@ -73,7 +101,7 @@ const SignupScreen = ({ navigation }) => {
             btnType="facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            // onPress={() => fbLogin()}
+          // onPress={() => fbLogin()}
           />
 
           <SocialButton
@@ -81,7 +109,7 @@ const SignupScreen = ({ navigation }) => {
             btnType="google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            // onPress={() => googleLogin()}
+          // onPress={() => googleLogin()}
           />
         </View>
       ) : null}
@@ -136,5 +164,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "LatoRegular",
     color: "grey",
+  },
+  errorText: {
+    color: 'red',
   },
 });

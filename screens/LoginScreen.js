@@ -10,10 +10,32 @@ import {
 
 import { FormButton, SocialButton, FormInput } from "../components/index";
 import Colors from "../utils/Colors";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 const LoginScreen = ({ navigation }) => {
+
+  if (auth.currentUser) {
+    navigation.navigate("Home");
+  }
+
+  const [errorMessage, setErrorMessage] = React.useState('')
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let login = () => {
+    if (email !== "" && password !== "") {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          navigation.navigate("Home", { user: userCredential.user });
+        })
+        .catch((error) => {
+          setErrorMessage(error.message)
+        });
+    } else {
+      setErrorMessage('Please enter valid credentials')
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -24,10 +46,11 @@ const LoginScreen = ({ navigation }) => {
 
       <Text style={styles.logoName}>SAVIOR</Text>
       <Text style={styles.subLogoName}>Disaster Management Community </Text>
+      <Text style={[styles.errorText]}>{errorMessage}</Text>
 
       <FormInput
-        labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
+        value={email}
+        onChangeText={setEmail}
         placeholderText="Email"
         iconType="user"
         keyboardType="email-address"
@@ -36,8 +59,8 @@ const LoginScreen = ({ navigation }) => {
       />
 
       <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
+        value={password}
+        onChangeText={setPassword}
         placeholderText="Password"
         iconType="lock"
         secureTextEntry={true}
@@ -45,11 +68,10 @@ const LoginScreen = ({ navigation }) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => navigation.navigate("Home")}
-        // onPress={() => login(email, password)}
+        onPress={login}
       />
 
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+      <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity>
 
@@ -60,7 +82,7 @@ const LoginScreen = ({ navigation }) => {
             btnType="facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            // onPress={() => fbLogin()}
+          // onPress={() => fbLogin()}
           />
 
           <SocialButton
@@ -68,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
             btnType="google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            // onPress={() => googleLogin()}
+          // onPress={() => googleLogin()}
           />
         </View>
       ) : null}
@@ -129,5 +151,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#2e64e5",
     fontFamily: "LatoRegular",
+  },
+  errorText: {
+    color: 'red',
   },
 });
