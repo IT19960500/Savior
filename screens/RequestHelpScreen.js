@@ -25,9 +25,8 @@ import {
 } from "firebase/firestore";
 
 import Colors from "../utils/Colors";
-import { async } from "@firebase/util";
 
-const RequestHelpScreen = () => {
+const RequestHelpScreen = ({}) => {
   const requestType = ["Food", "Medicine", "Transport", "Clothes"];
 
   const [description, setDescription] = useState(null);
@@ -86,12 +85,13 @@ const RequestHelpScreen = () => {
       contact: contact,
       userId: auth.currentUser.uid,
       userName: "Kanaka",
-      address: JSON.stringify(address[0].city + "," + address[0].country),
+      address: address[0].city + ", " + address[0].country,
       createAt: d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear(),
       lati: location.coords.latitude,
       longi: location.coords.longitude,
+      timestamp: Date.now(),
       userImg:
-        "https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3OIHckcpNeno7oFx_pw0izU0o2hQs50p4jw&usqp=CAU",
     };
 
     console.log(requestToSave);
