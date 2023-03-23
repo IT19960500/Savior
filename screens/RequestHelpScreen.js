@@ -20,6 +20,7 @@ import {
   where,
   getDocs,
   deleteDoc,
+  updateDoc,
   doc,
   setDoc,
 } from "firebase/firestore";

@@ -124,6 +124,7 @@ const RequestCard = (props) => {
             style={styles.editBtn}
             onPress={() =>
               navigation.navigate("EditRequest", {
+                id: id,
                 userId: userId,
                 image: image,
                 userName: userName,
