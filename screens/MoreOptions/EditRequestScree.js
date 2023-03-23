@@ -12,6 +12,19 @@ import SelectDropdown from "react-native-select-dropdown";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
+import { auth, db } from "../../config/firebase";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+
 import Colors from "../../utils/Colors";
 
 const EditRequestScree = ({ route, navigation }) => {
@@ -20,22 +33,31 @@ const EditRequestScree = ({ route, navigation }) => {
     userId,
     image,
     userName,
-    address,
-    type,
-    description,
-    person,
+    addressEdt,
+    typeEdt,
+    descriptionEdt,
+    personEdt,
     createAt,
-    contact,
-    lati,
-    longi,
+    contactEdt,
+    latiEdt,
+    longiEdt,
   } = route.params;
 
   const requestType = ["Food", "Medicine", "Transport", "Clothes"];
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [addr, setAddr] = useState(null);
   const [catchLocation, setCatchLocation] = useState(false);
+
+  const [description, setDescription] = useState(descriptionEdt);
+  const [type, setType] = useState(typeEdt);
+  const [person, setPerson] = useState(personEdt);
+  const [contact, setContact] = useState(contactEdt);
+  const [address, setAddress] = useState(addressEdt);
+
+  const [isShow, setIsShow] = useState(false);
+  const [isDangerous, setIsDangerous] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -47,11 +69,46 @@ const EditRequestScree = ({ route, navigation }) => {
     let location = await Location.getCurrentPositionAsync({});
     let address = await Location.reverseGeocodeAsync(location.coords);
     setLocation(location);
-    setAddr(address);
+    setAddress(address);
     setCatchLocation(true);
   };
 
-  console.log(userId);
+  //clear alert and text
+  const clear = () => {
+    setTimeout(() => {
+      setIsShow(false);
+      setIsDangerous(false);
+    }, 2000);
+  };
+
+  //update request
+  const updateRequest = async () => {
+    if (!description || !type || !person || !contact) {
+      setIsShow(true);
+      setAlertMsg("Please provide all values");
+      setIsDangerous(true);
+      clear();
+      return;
+    }
+
+    let requestToUpdate = {
+      description: description,
+      type: type,
+      person: person,
+      contact: contact,
+    };
+
+    console.log(requestToUpdate);
+
+    const DocRef = doc(db, "request", id);
+
+    await setDoc(DocRef, requestToUpdate, { merge: true });
+
+    setIsShow(true);
+    setAlertMsg("Request update successfully...");
+    clear();
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -61,6 +118,8 @@ const EditRequestScree = ({ route, navigation }) => {
           style={styles.descriptionText}
           placeholder="What is your request from others"
           multiline={true}
+          value={description}
+          onChangeText={(description) => setDescription(description)}
         />
 
         <View style={styles.spacer} />
@@ -70,7 +129,7 @@ const EditRequestScree = ({ route, navigation }) => {
           buttonTextStyle={styles.buttonTextStyle}
           dropdownStyle={styles.dropdownStyle}
           data={requestType}
-          defaultButtonText="Select Request Type"
+          defaultButtonText={type}
           renderDropdownIcon={(isOpened) => {
             return isOpened ? (
               <MaterialIcons name="arrow-drop-up" size={24} color="black" />
@@ -79,7 +138,7 @@ const EditRequestScree = ({ route, navigation }) => {
             );
           }}
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+            setType(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem;
@@ -96,6 +155,8 @@ const EditRequestScree = ({ route, navigation }) => {
           placeholder="Number of persons"
           multiline={true}
           inputMode="numeric"
+          value={person}
+          onChangeText={(person) => setPerson(person)}
         />
 
         <View style={styles.spacer} />
@@ -105,6 +166,8 @@ const EditRequestScree = ({ route, navigation }) => {
           placeholder="Your contact number"
           multiline={true}
           inputMode="tel"
+          value={contact}
+          onChangeText={(contact) => setContact(contact)}
         />
 
         <View style={styles.spacer} />
@@ -126,14 +189,38 @@ const EditRequestScree = ({ route, navigation }) => {
             </Text>
           ) : (
             <Text style={styles.locationTxt}>
-              Click This Button For Update Your Location
+              Click And Update Your Location
             </Text>
           )}
         </TouchableOpacity>
 
+        {isShow && (
+          <View
+            style={
+              isDangerous
+                ? [
+                    styles.alertContainer,
+                    {
+                      backgroundColor: Colors.primary,
+                      borderColor: Colors.secondary,
+                    },
+                  ]
+                : [
+                    styles.alertContainer,
+                    { backgroundColor: "#3fc36f", borderColor: "#41b26a" },
+                  ]
+            }
+          >
+            <Text style={styles.alertText}>{alertMsg}</Text>
+          </View>
+        )}
+
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => updateRequest()}
+        >
           <Text style={styles.submitText}>Update Request</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -258,6 +345,25 @@ const styles = StyleSheet.create({
   },
 
   submitText: {
+    fontSize: 17,
+    fontFamily: "LatoRegular",
+    color: Colors.bgWhite,
+    fontWeight: "700",
+  },
+
+  alertContainer: {
+    flexDirection: "row",
+    // backgroundColor: Colors.primary,
+    height: 50,
+    borderRadius: 5,
+    borderWidth: 1,
+    // borderColor: Colors.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  alertText: {
     fontSize: 17,
     fontFamily: "LatoRegular",
     color: Colors.bgWhite,

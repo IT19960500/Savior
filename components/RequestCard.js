@@ -128,14 +128,14 @@ const RequestCard = (props) => {
                 userId: userId,
                 image: image,
                 userName: userName,
-                address: address,
-                type: type,
-                description: description,
-                person: person,
+                addressEdt: address,
+                typeEdt: type,
+                descriptionEdt: description,
+                personEdt: person,
                 createAt: createAt,
-                contact: contact,
-                lati: lati,
-                longi: longi,
+                contactEdt: contact,
+                latiEdt: lati,
+                longiEdt: longi,
               })
             }
           >
