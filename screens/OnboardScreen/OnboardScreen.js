@@ -37,7 +37,8 @@ const OnboardScreen = ({ navigation }) => {
             <Image source={require("../../assets/images/obs-vector-1.png")} />
           ),
           title: "STAY INFORMED",
-          subtitle: "Done with React Native Onboarding Swiper",
+          subtitle:
+            "Disasters cannot be totally prevented but their impact can be educed",
         },
 
         {
@@ -46,7 +47,8 @@ const OnboardScreen = ({ navigation }) => {
             <Image source={require("../../assets/images/obs-vector-2.png")} />
           ),
           title: "HAVE A PLANE  FOR EVACUATION",
-          subtitle: "Done with React Native Onboarding Swiper",
+          subtitle:
+            "Disasters cannot be totally prevented but their impact can be educed",
         },
 
         {
@@ -55,7 +57,8 @@ const OnboardScreen = ({ navigation }) => {
             <Image source={require("../../assets/images/obs-vector-3.png")} />
           ),
           title: "KEEP EMERGENCY KITS ON HAND",
-          subtitle: "Done with React Native Onboarding Swiper",
+          subtitle:
+            "Disasters cannot be totally prevented but their impact can be educed",
         },
 
         {
@@ -64,7 +67,8 @@ const OnboardScreen = ({ navigation }) => {
             <Image source={require("../../assets/images/obs-vector-4.png")} />
           ),
           title: "AVOID UNNECESSARY RISKS",
-          subtitle: "Done with React Native Onboarding Swiper",
+          subtitle:
+            "Disasters cannot be totally prevented but their impact can be educed",
         },
 
         {
@@ -73,7 +77,8 @@ const OnboardScreen = ({ navigation }) => {
             <Image source={require("../../assets/images/obs-vector-5.png")} />
           ),
           title: "GO TO THE SAFEST AREA IN YOUR HOME",
-          subtitle: "Done with React Native Onboarding Swiper",
+          subtitle:
+            "Disasters cannot be totally prevented but their impact can be educed",
         },
       ]}
     />
