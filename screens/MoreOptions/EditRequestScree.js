@@ -12,7 +12,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
-import { auth, db } from "../config/firebase";
+import { auth, db } from "../../config/firebase";
 import {
   collection,
   addDoc,
@@ -25,23 +25,39 @@ import {
   setDoc,
 } from "firebase/firestore";
 
-import Colors from "../utils/Colors";
+import Colors from "../../utils/Colors";
 
-const RequestHelpScreen = ({}) => {
+const EditRequestScree = ({ route, navigation }) => {
+  const {
+    id,
+    userId,
+    image,
+    userName,
+    addressEdt,
+    typeEdt,
+    descriptionEdt,
+    personEdt,
+    createAt,
+    contactEdt,
+    latiEdt,
+    longiEdt,
+  } = route.params;
+
   const requestType = ["Food", "Medicine", "Transport", "Clothes"];
 
-  const [description, setDescription] = useState(null);
-  const [type, setType] = useState(null);
-  const [person, setPerson] = useState(null);
-  const [contact, setContact] = useState(null);
   const [location, setLocation] = useState(null);
-  const [address, setAddress] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [catchLocation, setCatchLocation] = useState(false);
+
+  const [description, setDescription] = useState(descriptionEdt);
+  const [type, setType] = useState(typeEdt);
+  const [person, setPerson] = useState(personEdt);
+  const [contact, setContact] = useState(contactEdt);
+  const [address, setAddress] = useState(addressEdt);
+
   const [isShow, setIsShow] = useState(false);
   const [isDangerous, setIsDangerous] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
-
-  const d = new Date();
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -62,58 +78,48 @@ const RequestHelpScreen = ({}) => {
     setTimeout(() => {
       setIsShow(false);
       setIsDangerous(false);
-      setDescription(null);
-      setType(null);
-      setPerson(null);
-      setContact(null);
-      setAddress(null);
     }, 2000);
   };
 
-  //create request
-  const addRequest = async () => {
-    if (!description || !type || !person || !contact || !address) {
+  //update request
+  const updateRequest = async () => {
+    if (!description || !type || !person || !contact) {
       setIsShow(true);
       setAlertMsg("Please provide all values");
       setIsDangerous(true);
       clear();
       return;
     }
-    let requestToSave = {
+
+    let requestToUpdate = {
       description: description,
       type: type,
       person: person,
       contact: contact,
-      userId: auth.currentUser.uid,
-      userName: "Kanaka",
-      address: address[0].city + ", " + address[0].country,
-      createAt: d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear(),
-      lati: location.coords.latitude,
-      longi: location.coords.longitude,
-      timestamp: Date.now(),
-      userImg:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3OIHckcpNeno7oFx_pw0izU0o2hQs50p4jw&usqp=CAU",
     };
 
-    console.log(requestToSave);
+    console.log(requestToUpdate);
 
-    await addDoc(collection(db, "request"), requestToSave);
+    const DocRef = doc(db, "request", id);
+
+    await setDoc(DocRef, requestToUpdate, { merge: true });
 
     setIsShow(true);
-    setAlertMsg("Your request submit successfully...");
+    setAlertMsg("Request update successfully...");
     clear();
   };
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.titleText}>Create Your Request</Text>
+        <Text style={styles.titleText}>Update Your Request</Text>
 
         <TextInput
-          onChangeText={(description) => setDescription(description)}
           style={styles.descriptionText}
           placeholder="What is your request from others"
           multiline={true}
+          value={description}
+          onChangeText={(description) => setDescription(description)}
         />
 
         <View style={styles.spacer} />
@@ -123,7 +129,7 @@ const RequestHelpScreen = ({}) => {
           buttonTextStyle={styles.buttonTextStyle}
           dropdownStyle={styles.dropdownStyle}
           data={requestType}
-          defaultButtonText="Select Request Type"
+          defaultButtonText={type}
           renderDropdownIcon={(isOpened) => {
             return isOpened ? (
               <MaterialIcons name="arrow-drop-up" size={24} color="black" />
@@ -149,6 +155,7 @@ const RequestHelpScreen = ({}) => {
           placeholder="Number of persons"
           multiline={true}
           inputMode="numeric"
+          value={person}
           onChangeText={(person) => setPerson(person)}
         />
 
@@ -157,7 +164,9 @@ const RequestHelpScreen = ({}) => {
         <TextInput
           style={styles.personText}
           placeholder="Your contact number"
+          multiline={true}
           inputMode="tel"
+          value={contact}
           onChangeText={(contact) => setContact(contact)}
         />
 
@@ -176,11 +185,11 @@ const RequestHelpScreen = ({}) => {
           />
           {catchLocation ? (
             <Text style={styles.locationTxt}>
-              Thank You! We Got Your Location
+              Thank You! We Updated Your Location
             </Text>
           ) : (
             <Text style={styles.locationTxt}>
-              Click This Button For Get Your Location
+              Click And Update Your Location
             </Text>
           )}
         </TouchableOpacity>
@@ -210,16 +219,16 @@ const RequestHelpScreen = ({}) => {
 
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => addRequest()}
+          onPress={() => updateRequest()}
         >
-          <Text style={styles.submitText}>Submit Request</Text>
+          <Text style={styles.submitText}>Update Request</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
 };
 
-export default RequestHelpScreen;
+export default EditRequestScree;
 
 const styles = StyleSheet.create({
   container: {

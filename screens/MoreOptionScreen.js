@@ -10,9 +10,22 @@ import {
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { Entypo } from "@expo/vector-icons";
 
+import { auth } from "../config/firebase";
+
 import Colors from "../utils/Colors";
 
 const MoreOptionScreen = ({ navigation }) => {
+  const signOutUser = () => {
+    auth
+      .signOut()
+      .then((result) => {
+        navigation.replace("Login");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -68,7 +81,7 @@ const MoreOptionScreen = ({ navigation }) => {
 
         <View style={styles.spacer} />
 
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem} onPress={() => signOutUser()}>
           <View style={styles.listItemInnerContentView}>
             <Text style={styles.textStyle}>Logout</Text>
             <Entypo name="log-out" size={25} color={Colors.mediumGray} />

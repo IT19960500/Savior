@@ -8,12 +8,43 @@ import {
   ScrollView,
 } from "react-native";
 
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+
 import { FormButton, SocialButton, FormInput } from "../components/index";
 import Colors from "../utils/Colors";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  if (auth.currentUser) {
+    navigation.navigate("Home");
+  } else {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.navigate("Home");
+      }
+    });
+  }
+
+  let login = () => {
+    if (email !== "" && password !== "") {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          navigation.navigate("Home", { user: userCredential.user });
+          setErrorMessage("");
+          setEmail("");
+          setPassword("");
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    } else {
+      setErrorMessage("Please enter an email and password");
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -24,6 +55,8 @@ const LoginScreen = ({ navigation }) => {
 
       <Text style={styles.logoName}>SAVIOR</Text>
       <Text style={styles.subLogoName}>Disaster Management Community </Text>
+
+      <Text style={styles.errorText}>{errorMessage}</Text>
 
       <FormInput
         labelValue={email}
@@ -45,8 +78,8 @@ const LoginScreen = ({ navigation }) => {
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => navigation.navigate("Home")}
-        // onPress={() => login(email, password)}
+        // onPress={() => navigation.navigate("Home")}
+        onPress={() => login()}
       />
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>

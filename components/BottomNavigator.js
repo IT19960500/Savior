@@ -16,7 +16,7 @@ const BottomNavigator = ({ navigation }) => {
           name="slideshare"
           style={styles.icon}
           size={30}
-          color={Colors.white}
+          color={Colors.primary}
         />
       </TouchableOpacity>
 
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
   },
 
   bottomBar: {
-    backgroundColor: "#f2f7fcff",
+    // backgroundColor: "#f2f7fcff",
+    backgroundColor: Colors.white,
     width: "100%",
     height: 60,
     flexDirection: "row",
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   icon: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.white,
     padding: 12,
     borderRadius: 15,
     alignSelf: "center",
@@ -99,9 +100,7 @@ const styles = StyleSheet.create({
   floatingButton: {
     position: "absolute",
     bottom: 25,
-    backgroundColor: "#f8f4f4",
     zIndex: 10,
-    borderRadius: 25,
   },
 
   helpMeButton: {

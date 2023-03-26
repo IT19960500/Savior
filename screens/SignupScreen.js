@@ -10,15 +10,37 @@ import {
 import { FormButton, SocialButton, FormInput } from "../components/index";
 import Colors from "../utils/Colors";
 
+import { auth } from "../config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
+
+  let signUp = () => {
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          sendEmailVerification(auth.currentUser);
+          navigation.navigate("Home", { user: userCredential.user });
+        })
+        .catch((error) => {
+          setValidationMessage(error.message);
+        });
+    } else {
+      setValidationMessage("Password Miss Match");
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.subLogoName}>Create an account</Text>
-
+      <Text style={styles.errorText}>{validationMessage}</Text>
       <FormInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
@@ -45,11 +67,7 @@ const SignupScreen = ({ navigation }) => {
         secureTextEntry={true}
       />
 
-      <FormButton
-        buttonTitle="Sign Up"
-        onPress={() => alert("thada kora")}
-        // onPress={() => login(email, password)}
-      />
+      <FormButton buttonTitle="Sign Up" onPress={() => signUp()} />
 
       <View style={styles.textPrivate}>
         <Text style={styles.color_textPrivate}>
