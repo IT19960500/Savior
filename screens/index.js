@@ -6,6 +6,8 @@ import TipsScreen from "./TipsScreen";
 import FeedsScreen from "./FeedsScreen";
 import CommunityScreen from "./CommunityScreen";
 import RequestHelpScreen from "./RequestHelpScreen";
+import UpdateMyDonationsScreen from "./UpdateMyDonationsScreen";
+import UpdateTips from "./UpdateTips";
 
 export {
   LoginScreen,
@@ -16,4 +18,6 @@ export {
   FeedsScreen,
   CommunityScreen,
   RequestHelpScreen,
+  UpdateMyDonationsScreen,
+  UpdateTips,
 };

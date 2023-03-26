@@ -7,9 +7,9 @@ import RequestCard from "./RequestCard";
 
 export {
   FormButton,
-  RequestCard,
   FormInput,
   SocialButton,
   BottomNavigator,
   TopNavigation,
+  RequestCard,
 };

@@ -1,29 +1,22 @@
 import { initializeApp } from "firebase/app";
-
 import { getAuth } from "firebase/auth";
-
 import { getFirestore } from "firebase/firestore";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyB-4OSzFLgDiucuJF43wXToNF1-FsQYl48",
+  apiKey: "AIzaSyCcioL78boG8dOwlSUSL_KA3gd1IWqVVDo",
 
-  authDomain: "savior-f4176.firebaseapp.com",
+  authDomain: "saviour-5a697.firebaseapp.com",
 
-  projectId: "savior-f4176",
+  projectId: "saviour-5a697",
 
-  storageBucket: "savior-f4176.appspot.com",
+  storageBucket: "saviour-5a697.appspot.com",
 
-  messagingSenderId: "364542439323",
+  messagingSenderId: "947754209678",
 
-  appId: "1:364542439323:web:5554551b8e663096ce7b3e",
+  appId: "1:947754209678:web:7fb6b98db8d595510d54df",
 
-  measurementId: "G-RH5XJ0G6BV",
+  measurementId: "G-7H7MG81RN6",
 };
-
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth();
-
 const db = getFirestore();
-
 export { auth, db };
