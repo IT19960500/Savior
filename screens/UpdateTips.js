@@ -27,34 +27,48 @@ const UpdateTips = ({ route, navigation }) => {
     setDoc(tipsRef, { tips_description: tipsDescription }, { merge: true });
   };
 
-  return (
-    <View style={styles.container}>  
-      <FormInput
-        placeholder="Title"
-        value={tipsTitle}
-        onChangeText={setTipsTitile}
-        iconType="edit"
-      />
-      <FormInput
-        placeholder="Description"
-        value={tipsDescription}
-        onChangeText={setTipsDescription}
-        iconType="form"
-      />
-      <Pressable style={AppStyles.buttons2} onPress={() => updateList(id)}>
-        <Text style={AppStyles.buttonText}>Update</Text>
-      </Pressable>
-    </View>
-  );
-};
+  const updateTips = async () => {
+    if (!tipsTitle || !tipsDescription) {
+      setIsShow(true);
+      setAlertMsg("Please provide all values");
+      setIsDangerous(true);
+      clear();
+      return;
+    }
 
-export default UpdateTips;
+    return (
+      <View style={styles.container}>
+        <FormInput
+          placeholder="Title"
+          value={tipsTitle}
+          onChangeText={setTipsTitile}
+          iconType="edit"
+        />
+        <FormInput
+          placeholder="Description"
+          value={tipsDescription}
+          onChangeText={setTipsDescription}
+          iconType="form"
+        />
+        <Pressable
+          style={AppStyles.buttons2}
+          onPress={() => {
+            updateList(id);
+            updateTips()
+          }}>
+          <Text style={AppStyles.buttonText}>Update</Text>
+        </Pressable>
+      </View>
+    );
+  };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+  export default UpdateTips;
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
