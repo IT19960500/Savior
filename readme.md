@@ -9,7 +9,7 @@ IT19960500- Bhashitha W.P.K.K
             
 
 
-
+--------------------------------------------------------------------------------------------------      
 npm install @react-navigation/native
 npx expo install react-native-screens react-native-safe-area-context
 
